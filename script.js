@@ -1,6 +1,6 @@
 // Game Configuration
 const GAME_CONFIG = {
-    timePerImage: 30,
+    timePerImage: 60,
     xpPerCorrect: 250,
     xpFinalBonus: 1.5,
     totalImages: 10,
