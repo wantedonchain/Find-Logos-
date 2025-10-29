@@ -20,49 +20,50 @@ let gameState = {
 const IMAGE_ANSWERS = [
     { 
         image: "https://i.ibb.co/BVwBS1w2/Screenshot-2025-10-29-20-10-57-19-84c9ef400ab248a2e4a3b31139e21163.jpg",
-        answer: "nike"  // CHANGE TO ACTUAL HIDDEN LOGO
+        answer: "arbitrum"
     },
     { 
         image: "https://i.ibb.co/1YdknzYT/Screenshot-2025-10-29-20-12-33-98-84c9ef400ab248a2e4a3b31139e21163.jpg",
-        answer: "apple"  // CHANGE TO ACTUAL HIDDEN LOGO
+        answer: "tron"
     },
     { 
         image: "https://i.ibb.co/7NYMW0xN/Screenshot-2025-10-29-20-14-56-03-84c9ef400ab248a2e4a3b31139e21163.jpg",
-        answer: "google"  // CHANGE TO ACTUAL HIDDEN LOGO
+        answer: "aave"
     },
     { 
         image: "https://i.ibb.co/5X8kgVks/Screenshot-2025-10-29-20-16-20-45-84c9ef400ab248a2e4a3b31139e21163.jpg",
-        answer: "microsoft"  // CHANGE TO ACTUAL HIDDEN LOGO
+        answer: "ton"
     },
     { 
         image: "https://i.ibb.co/qLyzZw93/Screenshot-2025-10-29-20-17-27-75-84c9ef400ab248a2e4a3b31139e21163.jpg",
-        answer: "amazon"  // CHANGE TO ACTUAL HIDDEN LOGO
+        answer: "floki"
     },
     { 
         image: "https://i.ibb.co/84zc3yZQ/Screenshot-2025-10-29-20-19-06-98-84c9ef400ab248a2e4a3b31139e21163.jpg",
-        answer: "netflix"  // CHANGE TO ACTUAL HIDDEN LOGO
+        answer: "sui"
     },
     { 
         image: "https://i.ibb.co/LDXKC4LS/Screenshot-2025-10-29-20-20-36-13-84c9ef400ab248a2e4a3b31139e21163.jpg",
-        answer: "spotify"  // CHANGE TO ACTUAL HIDDEN LOGO
+        answer: "polkadot"
     },
     { 
         image: "https://i.ibb.co/Myjg1fzK/Screenshot-2025-10-29-20-22-42-74-84c9ef400ab248a2e4a3b31139e21163.jpg",
-        answer: "twitter"  // CHANGE TO ACTUAL HIDDEN LOGO
+        answer: "bnb"
     },
     { 
         image: "https://i.ibb.co/DPxpySKd/Screenshot-2025-10-29-20-24-11-20-84c9ef400ab248a2e4a3b31139e21163.jpg",
-        answer: "instagram"  // CHANGE TO ACTUAL HIDDEN LOGO
+        answer: "xrp"
     },
     { 
         image: "https://i.ibb.co/XkxT6BBv/Screenshot-2025-10-29-20-25-54-55-84c9ef400ab248a2e4a3b31139e21163.jpg",
-        answer: "tesla"  // CHANGE TO ACTUAL HIDDEN LOGO
+        answer: "cardano"
     }
 ];
 
 // Zoom functionality
 let isZoomed = false;
 let zoomLevel = 1;
+let currentTimer = null;
 
 // SIMPLE INITIALIZATION
 document.addEventListener('DOMContentLoaded', function() {
@@ -84,21 +85,18 @@ function initializeGame() {
     const answerInput = document.getElementById('answerInput');
     const questionImage = document.getElementById('questionImage');
     
-    console.log('Join button:', !!joinBtn);
-    console.log('Submit button:', !!submitBtn);
+    console.log('Join button found:', !!joinBtn);
+    console.log('Username input found:', !!usernameInput);
     
-    // Event listeners
+    // Event listeners - FIXED: Using addEventListener instead of onclick
     if (joinBtn) {
-        joinBtn.onclick = function() {
-            console.log('👉 Join button clicked!');
-            handleStartGame();
-        };
+        joinBtn.addEventListener('click', handleStartGame);
     }
     
     if (usernameInput) {
-        usernameInput.onkeypress = function(e) {
+        usernameInput.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') handleStartGame();
-        };
+        });
         
         // Username validation - only letters, numbers, underscore
         usernameInput.addEventListener('input', function(e) {
@@ -116,26 +114,24 @@ function initializeGame() {
     }
     
     if (submitBtn) {
-        submitBtn.onclick = function() {
-            handleSubmitAnswer();
-        };
+        submitBtn.addEventListener('click', handleSubmitAnswer);
     }
     
     if (answerInput) {
-        answerInput.onkeypress = function(e) {
+        answerInput.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') handleSubmitAnswer();
-        };
+        });
     }
     
     if (playAgainBtn) {
-        playAgainBtn.onclick = function() {
-            showScreen('username');
+        playAgainBtn.addEventListener('click', function() {
+            showScreen('usernameScreen');
             const usernameInput = document.getElementById('usernameInput');
             if (usernameInput) {
                 usernameInput.value = '';
                 usernameInput.focus();
             }
-        };
+        });
     }
     
     // Zoom functionality for images
@@ -179,7 +175,7 @@ function toggleZoom() {
 }
 
 function handleStartGame() {
-    console.log('🎯 Handling start game...');
+    console.log('🎯 Join button clicked! Handling start game...');
     
     const usernameInput = document.getElementById('usernameInput');
     const usernameError = document.getElementById('usernameError');
@@ -275,7 +271,7 @@ function startGame(username) {
     if (currentScore) currentScore.textContent = '0';
     
     // Show game screen
-    showScreen('game');
+    showScreen('gameScreen');
     
     // Load first image
     loadImage();
@@ -292,10 +288,12 @@ function showScreen(screenName) {
     });
     
     // Show target screen
-    const targetScreen = document.getElementById(screenName + 'Screen');
+    const targetScreen = document.getElementById(screenName);
     if (targetScreen) {
         targetScreen.classList.add('active');
         console.log('✅ Screen shown:', screenName);
+    } else {
+        console.error('❌ Screen not found:', screenName);
     }
 }
 
@@ -319,6 +317,11 @@ function loadImage() {
         questionImage.src = currentQuestion.image;
         questionImage.style.transform = 'scale(1)';
         questionImage.style.cursor = 'zoom-in';
+        // Add error handling
+        questionImage.onerror = function() {
+            console.error('❌ Failed to load image:', currentQuestion.image);
+            handleImageError();
+        };
     }
     if (answerInput) {
         answerInput.value = '';
@@ -347,8 +350,18 @@ function loadImage() {
     startTimer();
 }
 
-// TIMER
-let currentTimer = null;
+function handleImageError() {
+    console.error('❌ Failed to load image');
+    const feedback = document.getElementById('feedback');
+    if (feedback) {
+        feedback.textContent = 'Error loading image. Moving to next question.';
+        feedback.className = 'feedback incorrect';
+    }
+    setTimeout(() => {
+        gameState.currentImage++;
+        loadImage();
+    }, 2000);
+}
 
 function startTimer() {
     // Clear any existing timer
@@ -402,6 +415,8 @@ function handleTimeUp() {
 }
 
 function handleSubmitAnswer() {
+    console.log('📝 Submitting answer...');
+    
     // Clear timer
     if (currentTimer) {
         clearInterval(currentTimer);
@@ -411,7 +426,10 @@ function handleSubmitAnswer() {
     const feedback = document.getElementById('feedback');
     const currentScore = document.getElementById('currentScore');
     
-    if (!answerInput) return;
+    if (!answerInput) {
+        console.error('❌ Answer input not found!');
+        return;
+    }
     
     const userAnswer = answerInput.value.trim().toLowerCase();
     
@@ -428,6 +446,8 @@ function handleSubmitAnswer() {
     
     const currentQuestion = IMAGE_ANSWERS[gameState.currentImage];
     const correctAnswer = currentQuestion.answer.toLowerCase();
+    
+    console.log('User answer:', userAnswer, 'Correct answer:', correctAnswer);
     
     // Check if answer is correct (case insensitive, exact match only)
     const isCorrect = userAnswer === correctAnswer;
@@ -475,7 +495,7 @@ function handleSubmitAnswer() {
 function endGame() {
     console.log('🏁 Game ended');
     showLeaderboard();
-    showScreen('leaderboard');
+    showScreen('leaderboardScreen');
 }
 
 function showLeaderboard() {
@@ -569,25 +589,3 @@ function startResetTimer() {
     updateResetTimer();
     setInterval(updateResetTimer, 1000);
 }
-
-// Image error handling
-function handleImageError() {
-    console.error('❌ Failed to load image');
-    const feedback = document.getElementById('feedback');
-    if (feedback) {
-        feedback.textContent = 'Error loading image. Moving to next question.';
-        feedback.className = 'feedback incorrect';
-    }
-    setTimeout(() => {
-        gameState.currentImage++;
-        loadImage();
-    }, 2000);
-}
-
-// Add image error handler
-document.addEventListener('DOMContentLoaded', function() {
-    const questionImage = document.getElementById('questionImage');
-    if (questionImage) {
-        questionImage.onerror = handleImageError;
-    }
-});
