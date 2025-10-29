@@ -51,6 +51,10 @@ body::before {
     position: relative;
     border: 1px solid rgba(255, 215, 0, 0.3);
     backdrop-filter: blur(10px);
+    /* Centering fix */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .container::before {
@@ -81,6 +85,9 @@ body::before {
     flex-direction: column;
     justify-content: center;
     position: relative;
+    /* Centering fix */
+    width: 100%;
+    text-align: center;
 }
 
 .screen.active {
@@ -91,6 +98,11 @@ body::before {
 .golden-logo {
     margin-bottom: 30px;
     text-align: center;
+    /* Centering fix */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
 }
 
 .main-logo {
@@ -102,6 +114,11 @@ body::before {
         0 0 50px rgba(255, 215, 0, 0.5);
     border: 3px solid rgba(255, 215, 0, 0.4);
     background: rgba(255, 255, 255, 0.05);
+}
+
+.logo {
+    text-align: center;
+    width: 100%;
 }
 
 .logo h1 {
@@ -314,17 +331,6 @@ body::before {
     transform-origin: center center;
 }
 
-/* Mobile zoom adjustments */
-@media (max-width: 768px) {
-    .challenge-image {
-        max-height: 300px;
-    }
-    
-    .challenge-image.zoomed {
-        transform: scale(2);
-    }
-}
-
 .bonus-notice {
     position: absolute;
     top: 10px;
@@ -466,6 +472,27 @@ body::before {
     text-align: center;
     color: #ffd54f;
     font-size: 1rem;
+}
+
+/* Mobile zoom adjustments */
+@media (max-width: 768px) {
+    .game-header {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .challenge-image {
+        max-height: 300px;
+    }
+    
+    .challenge-image.zoomed {
+        transform: scale(2);
+    }
+    
+    .logo h1 {
+        font-size: 2.2rem;
+    }
 }
 
 /* Responsive */
