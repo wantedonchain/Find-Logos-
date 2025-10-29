@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find the Gem - Find The Hidden image</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Username Screen -->
+        <div id="usernameScreen" class="screen active">
+            <div class="logo">
+                <div class="golden-logo">
+                    <img src="<a href="https://ibb.co/jvqy6yr3"><img src="https://i.ibb.co/pvNf0fL4/Screenshot-2025-10-29-21-45-01-65-40deb401b9ffe8e1df2f1cc5ba480b12.jpg" alt="Screenshot-2025-10-29-21-45-01-65-40deb401b9ffe8e1df2f1cc5ba480b12" border="0"></a>" alt="Game Logo" class="main-logo">
+                </div>
+                <h1>🔍 HIDDEN LOGO CHALLENGE</h1>
+                <p>Find hidden logos • 30 seconds per image • 250 XP per correct</p>
+            </div>
+            <div class="username-form">
+                <h2>Enter Your Username</h2>
+                <input type="text" id="usernameInput" placeholder="Enter your username..." maxlength="20">
+                <div id="usernameError" class="error-message"></div>
+                <button id="joinBtn" class="btn-gold">Start Challenge</button>
+                <div class="player-count">
+                    <span id="currentPlayers">0</span> Active Players
+                </div>
+                <div class="reset-timer">
+                    ⏰ Username resets in: <span id="resetTimer">02:00:00</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="gameScreen" class="screen">
+            <div class="game-header">
+                <div class="player-info">Player: <span id="gameUsername"></span></div>
+                <div class="progress">Image <span id="currentImage">1</span>/10</div>
+                <div class="score">Score: <span id="currentScore">0</span> XP</div>
+                <div class="timer">
+                    <div class="timer-bar">
+                        <div class="timer-progress" id="timerProgress"></div>
+                    </div>
+                    <span id="timeLeft">30s</span>
+                </div>
+            </div>
+            
+            <div class="game-container">
+                <div class="image-container">
+                    <img id="questionImage" src="" alt="Find the hidden logo" class="challenge-image">
+                    <div class="bonus-notice" id="bonusNotice">Final Round - 1.5x Points! 🎯</div>
+                </div>
+                
+                <div class="answer-section">
+                    <h3>What logo is hidden in this image?</h3>
+                    <input type="text" id="answerInput" placeholder="Type the logo name here..." maxlength="50">
+                    <button id="submitBtn" class="btn-gold">Submit Answer</button>
+                </div>
+            </div>
+
+            <div class="feedback" id="feedback"></div>
+        </div>
+
+        <!-- Leaderboard Screen -->
+        <div id="leaderboardScreen" class="screen">
+            <div class="leaderboard-content">
+                <h2>🏆 HIDDEN LOGO LEADERBOARD</h2>
+                <p class="xp-rate">Correct Answer = 250 XP • Final Round = 375 XP</p>
+                <div id="leaderboard" class="leaderboard"></div>
+                <button id="playAgainBtn" class="btn-gold">Play Again</button>
+                <div class="reset-info">
+                    ⏰ Usernames reset every 1 hours
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
